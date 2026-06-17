@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.ssms*
+
+# SQL Server local files
+*.bak
+*.mdf
+*.ldf
+
+# Secrets
+*.env
+credentials.json
+
+# Temp
+*.tmp
+*.log
