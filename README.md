@@ -15,8 +15,6 @@
 
 AdventureWorks Corporation's retail analytics platform needs a reusable **programmability layer** — stored procedures, scalar functions, table-valued functions, and table-valued parameters — to encapsulate campaign validation, revenue calculation, batch processing, and performance reporting inside SQL Server.
 
-> **Architecture documentation:** See [`scripts/README.md`](scripts/README.md) for system design, dependency maps, RACI matrix, data flows, and error-handling strategy.
-
 ---
 
 ## Table of Contents
@@ -67,12 +65,12 @@ cd SQL-Server-Lab6-AdventureWorks
 ```text
 2. Open SSMS → connect to SQL Server → ensure AdventureWorks2022 is available
 3. Enable SQLCMD Mode (Query → SQLCMD Mode)
-4. Open Lab6/deployment/deploy_all.sql and execute (F5)
-5. Run test scripts from Lab6/testing/ individually
-6. Capture 14 screenshots → save to Lab6/screenshots/
+4. Open scripts/deployment/deploy_all.sql and execute (F5)
+5. Run scripts/testing/stored_procedure_invocation_tests.sql
+6. Capture 14 screenshots → save to screenshots/
 ```
 
-For detailed SSMS setup, deployment order, and troubleshooting, see **[`Lab6/README.md`](Lab6/README.md)**.
+For deployment order and troubleshooting, see **[Deployment Instructions](#deployment-instructions)** below.
 
 ---
 
@@ -88,7 +86,7 @@ For detailed SSMS setup, deployment order, and troubleshooting, see **[`Lab6/REA
 | **Git** | Git installed; team members added as repo collaborators |
 | **Permissions** | `db_ddladmin` or equivalent on AdventureWorks2022 |
 
-Verify your environment by running `Lab6/scripts/initialize_programmability_environment.sql` before deploying programmable objects.
+Verify your environment by running `scripts/initialize_programmability_environment.sql` before deploying programmable objects.
 
 ---
 
@@ -97,21 +95,30 @@ Verify your environment by running `Lab6/scripts/initialize_programmability_envi
 ```
 SQL-Server-Lab6-AdventureWorks/
 │
-├── README.md                          ← This file — project overview & submission guide
+├── README.md
 ├── .gitignore
-├── scripts/                           ← Solution architecture documentation
-│   └── README.md
-│
-└── Lab6/                              ← All lab SQL artifacts
-    ├── README.md                      ← Detailed developer guide
-    ├── scripts/                       ← Environment initialization (Task 1)
-    ├── types/                         ← User-defined table types (Task 5)
-    ├── functions/                     ← Scalar & table-valued functions (Tasks 6–9)
-    ├── procedures/                    ← Stored procedures (Tasks 2–5)
-    ├── testing/                       ← Invocation & validation tests (Tasks 4, 5, 10)
-    ├── maintenance/                     ← ALTER & DROP lifecycle scripts (Tasks 11–12)
-    ├── deployment/                    ← Master SQLCMD deploy script (Task 13)
-    └── screenshots/                   ← Lab evidence (14 categories)
+├── scripts/
+│   ├── deployment/
+│   │   └── deploy_all.sql
+│   ├── functions/
+│   │   ├── ufn_CalculateDiscountAmount.sql
+│   │   ├── ufn_CalculateProfitMargin.sql
+│   │   ├── ufn_GetCampaignProducts.sql
+│   │   └── ufn_GetCampaignPerformance.sql
+│   ├── maintenance/
+│   │   ├── programmable_object_modification.sql
+│   │   └── programmable_object_removal.sql
+│   ├── procedures/
+│   │   ├── usp_ValidateCampaign.sql
+│   │   ├── usp_GetCampaignDetails.sql
+│   │   ├── usp_CalculateCampaignRevenue.sql
+│   │   └── usp_ProcessCampaignBatch.sql
+│   ├── testing/
+│   │   └── stored_procedure_invocation_tests.sql
+│   ├── types/
+│   │   └── CampaignListType.sql
+│   └── initialize_programmability_environment.sql
+└── screenshots/                       ← Lab evidence (14 categories)
 ```
 
 ---
@@ -121,25 +128,23 @@ SQL-Server-Lab6-AdventureWorks/
 | Task | Description | Owner | Script(s) |
 |------|-------------|-------|-----------|
 | **Task 1** | Environment initialization — verify `RetailAnalytics` schema and Lab 5 tables; set session options | Sahasri | `scripts/initialize_programmability_environment.sql` |
-| **Task 2** | Campaign validation stored procedure with TRY/CATCH and custom error messages | Parth | `procedures/usp_ValidateCampaign.sql` |
-| **Task 3** | Campaign detail retrieval SP with return codes (`0` / `-1` / `-2`) | Kelvin | `procedures/usp_GetCampaignDetails.sql` |
-| **Task 4** | Campaign revenue calculation SP with `@TotalRevenue` / `@TotalOrders` OUTPUT parameters | Hassana | `procedures/usp_CalculateCampaignRevenue.sql` |
-| **Task 5** | User-defined table type + batch processing SP using READONLY TVP | Lien | `types/CampaignListType.sql`, `procedures/usp_ProcessCampaignBatch.sql` |
-| **Task 6** | Scalar function — discount amount calculation | Brian | `functions/ufn_CalculateDiscountAmount.sql` |
-| **Task 7** | Scalar function — profit margin calculation | Dhruv | `functions/ufn_CalculateProfitMargin.sql` |
-| **Task 8** | Inline table-valued function — campaign products | Sahil | `functions/ufn_GetCampaignProducts.sql` |
-| **Task 9** | Multi-statement / inline table-valued function — campaign performance metrics | Sahil | `functions/ufn_GetCampaignPerformance.sql` |
-| **Task 10** | Stored procedure invocation testing — EXEC, named params, OUTPUT, return codes, TVP | Brian | `testing/stored_procedure_invocation_tests.sql` |
-| **Task 11** | Programmable object modification — ALTER PROCEDURE and ALTER FUNCTION | Joshua | `maintenance/programmable_object_modification.sql` |
-| **Task 12** | Programmable object removal — DROP with existence checks (reverse dependency order) | Joshua | `maintenance/programmable_object_removal.sql` |
-| **Task 13** | Master deployment script — SQLCMD `:r` includes all objects in dependency order | Sahasri | `deployment/deploy_all.sql` |
+| **Task 2** | Campaign validation stored procedure with TRY/CATCH and custom error messages | Parth | `scripts/procedures/usp_ValidateCampaign.sql` |
+| **Task 3** | Campaign detail retrieval SP with return codes (`0` / `-1` / `-2`) | Kelvin | `scripts/procedures/usp_GetCampaignDetails.sql` |
+| **Task 4** | Campaign revenue calculation SP with `@TotalRevenue` / `@TotalOrders` OUTPUT parameters | Hassana | `scripts/procedures/usp_CalculateCampaignRevenue.sql` |
+| **Task 5** | User-defined table type + batch processing SP using READONLY TVP | Lien | `scripts/types/CampaignListType.sql`, `scripts/procedures/usp_ProcessCampaignBatch.sql` |
+| **Task 6** | Scalar function — discount amount calculation | Brian | `scripts/functions/ufn_CalculateDiscountAmount.sql` |
+| **Task 7** | Scalar function — profit margin calculation | Dhruv | `scripts/functions/ufn_CalculateProfitMargin.sql` |
+| **Task 8** | Inline table-valued function — campaign products | Sahil | `scripts/functions/ufn_GetCampaignProducts.sql` |
+| **Task 9** | Multi-statement / inline table-valued function — campaign performance metrics | Sahil | `scripts/functions/ufn_GetCampaignPerformance.sql` |
+| **Task 10** | Stored procedure invocation testing — EXEC, named params, OUTPUT, return codes, TVP | Brian | `scripts/testing/stored_procedure_invocation_tests.sql` |
+| **Task 11** | Programmable object modification — ALTER PROCEDURE and ALTER FUNCTION | Joshua | `scripts/maintenance/programmable_object_modification.sql` |
+| **Task 12** | Programmable object removal — DROP with existence checks (reverse dependency order) | Joshua | `scripts/maintenance/programmable_object_removal.sql` |
+| **Task 13** | Master deployment script — SQLCMD `:r` includes all objects in dependency order | Sahasri | `scripts/deployment/deploy_all.sql` |
 
-### Secondary / Supporting Scripts
+### Supporting Artifacts
 
-| Script | Owner | Supports |
-|--------|-------|----------|
-| `testing/test_output_parameters.sql` | Hassana | Task 4 — OUTPUT parameter validation |
-| `testing/tvp_batch_test.sql` | Lien | Task 5 — TVP batch execution sample |
+| Artifact | Owner | Supports |
+|----------|-------|----------|
 | `screenshots/` (14 PNG files) | Joshua | All tasks — grading evidence |
 
 ---
@@ -149,21 +154,19 @@ SQL-Server-Lab6-AdventureWorks/
 | # | Script | Folder | Task | Owner | In deploy_all? |
 |---|--------|--------|------|-------|----------------|
 | 1 | `initialize_programmability_environment.sql` | `scripts/` | 1 | Sahasri | Yes (Step 1) |
-| 2 | `CampaignListType.sql` | `types/` | 5 | Lien | Yes (Step 2) |
-| 3 | `ufn_CalculateDiscountAmount.sql` | `functions/` | 6 | Brian | Yes (Step 3a) |
-| 4 | `ufn_CalculateProfitMargin.sql` | `functions/` | 7 | Dhruv | Yes (Step 3b) |
-| 5 | `ufn_GetCampaignProducts.sql` | `functions/` | 8 | Sahil | Yes (Step 4a) |
-| 6 | `ufn_GetCampaignPerformance.sql` | `functions/` | 9 | Sahil | Yes (Step 4b) |
-| 7 | `usp_ValidateCampaign.sql` | `procedures/` | 2 | Parth | Yes (Step 5a) |
-| 8 | `usp_GetCampaignDetails.sql` | `procedures/` | 3 | Kelvin | Yes (Step 5b) |
-| 9 | `usp_CalculateCampaignRevenue.sql` | `procedures/` | 4 | Hassana | Yes (Step 5c) |
-| 10 | `usp_ProcessCampaignBatch.sql` | `procedures/` | 5 | Lien | Yes (Step 5d) |
-| 11 | `test_output_parameters.sql` | `testing/` | 4 (sec.) | Hassana | No — run manually |
-| 12 | `tvp_batch_test.sql` | `testing/` | 5 (sec.) | Lien | No — run manually |
-| 13 | `stored_procedure_invocation_tests.sql` | `testing/` | 10 | Brian | No — run manually |
-| 14 | `programmable_object_modification.sql` | `maintenance/` | 11 | Joshua | No — run after deploy |
-| 15 | `programmable_object_removal.sql` | `maintenance/` | 12 | Joshua | No — reset only |
-| 16 | `deploy_all.sql` | `deployment/` | 13 | Sahasri | N/A (orchestrator) |
+| 2 | `CampaignListType.sql` | `scripts/types/` | 5 | Lien | Yes (Step 2) |
+| 3 | `ufn_CalculateDiscountAmount.sql` | `scripts/functions/` | 6 | Brian | Yes (Step 3a) |
+| 4 | `ufn_CalculateProfitMargin.sql` | `scripts/functions/` | 7 | Dhruv | Yes (Step 3b) |
+| 5 | `ufn_GetCampaignProducts.sql` | `scripts/functions/` | 8 | Sahil | Yes (Step 4a) |
+| 6 | `ufn_GetCampaignPerformance.sql` | `scripts/functions/` | 9 | Sahil | Yes (Step 4b) |
+| 7 | `usp_ValidateCampaign.sql` | `scripts/procedures/` | 2 | Parth | Yes (Step 5a) |
+| 8 | `usp_GetCampaignDetails.sql` | `scripts/procedures/` | 3 | Kelvin | Yes (Step 5b) |
+| 9 | `usp_CalculateCampaignRevenue.sql` | `scripts/procedures/` | 4 | Hassana | Yes (Step 5c) |
+| 10 | `usp_ProcessCampaignBatch.sql` | `scripts/procedures/` | 5 | Lien | Yes (Step 5d) |
+| 11 | `stored_procedure_invocation_tests.sql` | `scripts/testing/` | 10 | Brian | No — run manually |
+| 12 | `programmable_object_modification.sql` | `scripts/maintenance/` | 11 | Joshua | No — run after deploy |
+| 13 | `programmable_object_removal.sql` | `scripts/maintenance/` | 12 | Joshua | No — reset only |
+| 14 | `deploy_all.sql` | `scripts/deployment/` | 11 | Sahasri | N/A (orchestrator) |
 
 **Programmable objects created:** 1 table type · 4 functions · 4 stored procedures
 
@@ -182,7 +185,7 @@ SQL-Server-Lab6-AdventureWorks/
 
 ### Step 2 — Run deploy_all.sql
 
-1. Open `Lab6/deployment/deploy_all.sql`.
+1. Open `scripts/deployment/deploy_all.sql`.
 2. Confirm database context: `USE AdventureWorks2022;`
 3. Execute the script (**F5**).
 4. Review the **Messages** pane — each step prints progress headers.
@@ -190,21 +193,19 @@ SQL-Server-Lab6-AdventureWorks/
 
 ### Step 3 — Run Test Scripts
 
-Execute from `Lab6/testing/` in SSMS (SQLCMD mode not required):
+Execute from `scripts/testing/` in SSMS (SQLCMD mode not required):
 
 ```sql
 -- After successful deployment:
--- 1. Lab6/testing/test_output_parameters.sql
--- 2. Lab6/testing/tvp_batch_test.sql
--- 3. Lab6/testing/stored_procedure_invocation_tests.sql
+-- scripts/testing/stored_procedure_invocation_tests.sql
 ```
 
 ### Step 4 — Maintenance (Optional)
 
 | Script | When to Run |
 |--------|-------------|
-| `maintenance/programmable_object_modification.sql` | After deploy — demonstrates ALTER PROCEDURE / ALTER FUNCTION (Task 11) |
-| `maintenance/programmable_object_removal.sql` | Lab reset only — drops all Lab 6 objects (Task 12) |
+| `scripts/maintenance/programmable_object_modification.sql` | After deploy — demonstrates ALTER PROCEDURE / ALTER FUNCTION (Task 11) |
+| `scripts/maintenance/programmable_object_removal.sql` | Lab reset only — drops all Lab 6 objects (Task 12) |
 
 ### Deployment Order Summary
 
@@ -218,13 +219,11 @@ initialize_programmability_environment.sql
   → usp_ProcessCampaignBatch.sql  (requires TVP from step 2)
 ```
 
-See [`scripts/README.md`](scripts/README.md#5-dependency-order) for the full dependency graph.
-
 ---
 
 ## Screenshot Requirements
 
-Joshua organizes all lab evidence. Save **14 PNG screenshots** to `Lab6/screenshots/` using the naming convention `##_category_description.png`.
+Joshua organizes all lab evidence. Save **14 PNG screenshots** to `screenshots/` using the naming convention `##_category_description.png`.
 
 | # | Category | What to Capture | Task |
 |---|----------|-----------------|------|
@@ -240,10 +239,10 @@ Joshua organizes all lab evidence. Save **14 PNG screenshots** to `Lab6/screensh
 | 10 | Campaign Performance TVF | `ufn_GetCampaignPerformance` result set | 9 |
 | 11 | SP Invocation Tests | `stored_procedure_invocation_tests.sql` output | 10 |
 | 12 | Object Modification | ALTER results from Task 11 | 11 |
-| 13 | Object Removal | DROP results from Task 12 | 12 |
-| 14 | Full Deployment | `deploy_all.sql` completed without errors | 13 |
+| 11 | Object Removal | DROP results from Task 12 | 12 |
+| 12 | Full Deployment | `deploy_all.sql` completed without errors | 11 |
 
-Detailed capture guidelines: [`Lab6/screenshots/README.md`](Lab6/screenshots/README.md)
+Detailed capture guidelines: [`screenshots/README.md`](screenshots/README.md)
 
 ---
 
@@ -273,7 +272,7 @@ This team pushes directly to the `main` branch.
 2. Implement your assigned script(s) only
 3. Commit with descriptive messages:
    ```bash
-   git add Lab6/procedures/usp_ValidateCampaign.sql
+   git add scripts/procedures/usp_ValidateCampaign.sql
    git commit -m "Implement usp_ValidateCampaign with TRY/CATCH validation (Task 2)"
    ```
 4. Push directly to `main`:
@@ -300,9 +299,9 @@ Before the deadline (**June 21, 2026, 11:59 PM EDT**):
 - [ ] All assigned SQL scripts implemented (no remaining `TODO` blocks)
 - [ ] `deploy_all.sql` runs end-to-end without errors
 - [ ] All three test scripts in `testing/` execute successfully
-- [ ] 14 screenshots captured in `Lab6/screenshots/`
+- [ ] 14 screenshots captured in `screenshots/`
 - [ ] `main` branch contains all team members' work
-- [ ] README and [`scripts/README.md`](scripts/README.md) reviewed and accurate
+- [ ] README reviewed and accurate
 - [ ] Repository URL submitted per course instructions (Canvas / course portal)
 - [ ] Instructor added as GitHub collaborator
 - [ ] Each member can demonstrate their assigned task live if requested
@@ -327,9 +326,7 @@ Violations are subject to Georgia Tech's academic integrity policies.
 | Document | Path | Contents |
 |----------|------|----------|
 | **This README** | `README.md` | Overview, tasks, deployment, submission |
-| **Developer Guide** | [`Lab6/README.md`](Lab6/README.md) | SSMS setup, git workflow, detailed checklist |
-| **Solution Architecture** | [`scripts/README.md`](scripts/README.md) | Diagrams, RACI, data flows, error handling |
-| **Screenshot Guide** | [`Lab6/screenshots/README.md`](Lab6/screenshots/README.md) | Naming conventions, capture guidelines |
+| **Screenshot Guide** | [`screenshots/README.md`](screenshots/README.md) | Naming conventions, capture guidelines |
 
 ---
 

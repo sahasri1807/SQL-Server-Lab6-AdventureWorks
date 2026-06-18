@@ -12,7 +12,7 @@
 
   Prerequisites :
     - SQLCMD Mode ENABLED in SSMS (Query → SQLCMD Mode)
-    - Execute with working directory set to the Lab6/ folder
+    - Execute with working directory set to the scripts/deployment/ folder
     - AdventureWorks2022 with RetailAnalytics schema populated
 
   Deployment Order :
@@ -48,7 +48,7 @@ GO
 -- ============================================================================
 PRINT '';
 PRINT '>>> STEP 1: Environment Initialization';
-:r ../scripts/initialize_programmability_environment.sql
+:r ../initialize_programmability_environment.sql
 GO
 
 -- ============================================================================
