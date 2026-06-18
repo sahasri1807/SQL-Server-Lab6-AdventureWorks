@@ -184,7 +184,7 @@ SQLCMD mode allows SSMS to process `:r` (include file) directives used by `deplo
 4. Verify the `:r` paths in `deploy_all.sql` are correct relative to the `Lab6/` directory.
 5. Execute the script (**F5** or **Execute**).
 6. Review the **Messages** pane for deployment status and any errors.
-7. If errors occur, fix the failing script on your feature branch, re-run `deploy_all.sql`, and verify with the test scripts.
+7. If errors occur, fix the failing script, commit your changes, push to `main`, re-run `deploy_all.sql`, and verify with the test scripts.
 
 ---
 
@@ -248,22 +248,7 @@ See [`screenshots/README.md`](screenshots/README.md) for detailed guidance.
 
 ## Git Workflow for Team Collaboration
 
-### Branch Strategy
-
-Each team member works on a **personal feature branch**:
-
-```
-main
-├── feature/sahasri-integration
-├── feature/parth-validation-sp
-├── feature/kelvin-campaign-details
-├── feature/hassana-revenue-sp
-├── feature/lien-tvp-batch
-├── feature/brian-discount-function
-├── feature/dhruv-profit-margin
-├── feature/sahil-tvf
-└── feature/joshua-maintenance-qa
-```
+This team pushes directly to the `main` branch.
 
 ### Workflow Steps
 
@@ -273,35 +258,29 @@ main
    git pull origin main
    ```
 
-2. **Create your feature branch:**
-   ```bash
-   git checkout -b feature/yourname-task-description
-   ```
+2. **Implement** your assigned script(s) only. Do not modify teammates' files without coordination.
 
-3. **Implement** your assigned script(s) only. Do not modify teammates' files without coordination.
-
-4. **Commit** with descriptive messages:
+3. **Commit** with descriptive messages:
    ```bash
    git add procedures/usp_ValidateCampaign.sql
    git commit -m "Implement usp_ValidateCampaign with TRY/CATCH validation (Task 2)"
    ```
 
-5. **Push** and open a **Pull Request** to `main`:
+4. **Push** directly to `main`:
    ```bash
-   git push -u origin feature/yourname-task-description
-   gh pr create --title "Task 2: usp_ValidateCampaign" --body "Implements campaign validation SP per lab spec."
+   git push origin main
    ```
 
-6. **Code review:** At least one teammate (Sahasri for integration PRs) reviews before merge.
+5. **Coordinate** with teammates to avoid simultaneous edits to the same files.
 
-7. **Merge** via GitHub PR after approval. Sahasri resolves any merge conflicts in `deploy_all.sql`.
+6. **Verify integration:** Run `deploy_all.sql` after significant changes.
 
 ### Rules
 
-- Never commit directly to `main` without a PR (except initial scaffold by team lead).
-- One logical change per commit.
-- Run `deploy_all.sql` after every merge to verify integration.
-- Do not commit `.bak`, `.ssmssln`, or connection credential files.
+- Always pull before you push to reduce merge conflicts
+- One logical change per commit
+- Run `deploy_all.sql` after significant changes to verify integration
+- Do not commit `.bak`, `.ssmssln`, or connection credential files
 
 ---
 
@@ -327,7 +306,7 @@ Before the deadline (**June 21, 2026, 11:59 PM EDT**), confirm:
 - [ ] `deploy_all.sql` runs end-to-end without errors
 - [ ] All three test scripts in `testing/` execute successfully
 - [ ] 14 screenshots captured and saved to `screenshots/`
-- [ ] `main` branch contains merged work from all team members
+- [ ] `main` branch contains all team members' work
 - [ ] README reviewed and accurate
 - [ ] Repository URL submitted per course instructions
 - [ ] Each member can demonstrate their assigned task live if requested
@@ -338,7 +317,7 @@ Before the deadline (**June 21, 2026, 11:59 PM EDT**), confirm:
 
 For system design documentation — architecture diagrams, object inventory, deployment flow, dependency order, RACI matrix, data flows, and error-handling strategy — see:
 
-**[`../solution-architect/README.md`](../solution-architect/README.md)**
+**[`../scripts/README.md`](../scripts/README.md)**
 
 ---
 

@@ -15,7 +15,7 @@
 
 AdventureWorks Corporation's retail analytics platform needs a reusable **programmability layer** — stored procedures, scalar functions, table-valued functions, and table-valued parameters — to encapsulate campaign validation, revenue calculation, batch processing, and performance reporting inside SQL Server.
 
-> **Architecture documentation:** See [`solution-architect/README.md`](solution-architect/README.md) for system design, dependency maps, RACI matrix, data flows, and error-handling strategy.
+> **Architecture documentation:** See [`scripts/README.md`](scripts/README.md) for system design, dependency maps, RACI matrix, data flows, and error-handling strategy.
 
 ---
 
@@ -99,7 +99,7 @@ SQL-Server-Lab6-AdventureWorks/
 │
 ├── README.md                          ← This file — project overview & submission guide
 ├── .gitignore
-├── solution-architect/                ← Solution architecture documentation
+├── scripts/                           ← Solution architecture documentation
 │   └── README.md
 │
 └── Lab6/                              ← All lab SQL artifacts
@@ -218,7 +218,7 @@ initialize_programmability_environment.sql
   → usp_ProcessCampaignBatch.sql  (requires TVP from step 2)
 ```
 
-See [`solution-architect/README.md`](solution-architect/README.md#5-dependency-order) for the full dependency graph.
+See [`scripts/README.md`](scripts/README.md#5-dependency-order) for the full dependency graph.
 
 ---
 
@@ -261,36 +261,31 @@ Detailed capture guidelines: [`Lab6/screenshots/README.md`](Lab6/screenshots/REA
 
 ## Git Workflow
 
-### Branch Strategy
-
-Each team member works on a personal feature branch:
-
-```
-main
-├── feature/sahasri-integration
-├── feature/parth-validation-sp
-├── feature/kelvin-campaign-details
-├── feature/hassana-revenue-sp
-├── feature/lien-tvp-batch
-├── feature/brian-discount-function
-├── feature/dhruv-profit-margin
-├── feature/sahil-tvf
-└── feature/joshua-maintenance-qa
-```
+This team pushes directly to the `main` branch.
 
 ### Workflow
 
-1. Pull latest `main` before starting work
-2. Create feature branch: `git checkout -b feature/yourname-task`
-3. Implement assigned script(s) only
-4. Commit with descriptive messages
-5. Push and open a Pull Request to `main`
-6. Sahasri reviews integration PRs; at least one teammate reviews others
-7. Run `deploy_all.sql` after every merge to verify integration
+1. Pull latest `main` before starting work:
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
+2. Implement your assigned script(s) only
+3. Commit with descriptive messages:
+   ```bash
+   git add Lab6/procedures/usp_ValidateCampaign.sql
+   git commit -m "Implement usp_ValidateCampaign with TRY/CATCH validation (Task 2)"
+   ```
+4. Push directly to `main`:
+   ```bash
+   git push origin main
+   ```
+5. Coordinate with teammates to avoid editing the same files at the same time
+6. Run `deploy_all.sql` after significant changes to verify integration
 
 ### Rules
 
-- Never commit directly to `main` without a PR
+- Always pull before you push to reduce merge conflicts
 - One logical change per commit
 - Do not commit `.bak`, `.ssmssln`, or credential files
 - Add instructor as GitHub collaborator before submission
@@ -306,8 +301,8 @@ Before the deadline (**June 21, 2026, 11:59 PM EDT**):
 - [ ] `deploy_all.sql` runs end-to-end without errors
 - [ ] All three test scripts in `testing/` execute successfully
 - [ ] 14 screenshots captured in `Lab6/screenshots/`
-- [ ] `main` branch contains merged work from all team members
-- [ ] README and [`solution-architect/README.md`](solution-architect/README.md) reviewed and accurate
+- [ ] `main` branch contains all team members' work
+- [ ] README and [`scripts/README.md`](scripts/README.md) reviewed and accurate
 - [ ] Repository URL submitted per course instructions (Canvas / course portal)
 - [ ] Instructor added as GitHub collaborator
 - [ ] Each member can demonstrate their assigned task live if requested
@@ -333,7 +328,7 @@ Violations are subject to Georgia Tech's academic integrity policies.
 |----------|------|----------|
 | **This README** | `README.md` | Overview, tasks, deployment, submission |
 | **Developer Guide** | [`Lab6/README.md`](Lab6/README.md) | SSMS setup, git workflow, detailed checklist |
-| **Solution Architecture** | [`solution-architect/README.md`](solution-architect/README.md) | Diagrams, RACI, data flows, error handling |
+| **Solution Architecture** | [`scripts/README.md`](scripts/README.md) | Diagrams, RACI, data flows, error handling |
 | **Screenshot Guide** | [`Lab6/screenshots/README.md`](Lab6/screenshots/README.md) | Naming conventions, capture guidelines |
 
 ---

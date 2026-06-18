@@ -452,7 +452,7 @@ SQL-Server-Lab6-AdventureWorks/
 │
 ├── README.md                          ← Repository entry point; quick start & team index
 ├── .gitignore                         ← Excludes .bak, SSMS project files, secrets
-├── solution-architect/                ← This architecture documentation
+├── scripts/                           ← Solution architecture documentation
 │   └── README.md
 │
 └── Lab6/                              ← All lab artifacts (SSMS working root)
