@@ -23,33 +23,4 @@
 ================================================================================
 */
 
-USE AdventureWorks2022;
-GO
 
-IF OBJECT_ID(N'RetailAnalytics.ufn_CalculateProfitMargin', N'FN') IS NOT NULL
-    DROP FUNCTION RetailAnalytics.ufn_CalculateProfitMargin;
-GO
-
-CREATE FUNCTION RetailAnalytics.ufn_CalculateProfitMargin
-(
-    @Revenue    DECIMAL(18, 2),
-    @Cost       DECIMAL(18, 2)
-)
-RETURNS DECIMAL(10, 4)
-AS
-BEGIN
-    -- TODO: Implement profit margin calculation
-    -- Formula stub: ((Revenue - Cost) / Revenue) * 100
-
-    IF @Revenue IS NULL OR @Cost IS NULL
-        RETURN NULL;
-
-    IF @Revenue = 0
-        RETURN NULL;
-
-    RETURN ROUND(((@Revenue - @Cost) / @Revenue) * 100.0, 4);
-END;
-GO
-
-PRINT 'Created RetailAnalytics.ufn_CalculateProfitMargin (stub — implementation pending).';
-GO

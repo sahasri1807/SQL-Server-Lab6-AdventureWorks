@@ -23,33 +23,3 @@
 ================================================================================
 */
 
-USE AdventureWorks2022;
-GO
-
-IF OBJECT_ID(N'RetailAnalytics.ufn_GetCampaignPerformance', N'IF') IS NOT NULL
-    DROP FUNCTION RetailAnalytics.ufn_GetCampaignPerformance;
-GO
-
-CREATE FUNCTION RetailAnalytics.ufn_GetCampaignPerformance
-(
-    @CampaignID INT = NULL
-)
-RETURNS TABLE
-AS
-RETURN
-(
-    -- TODO: Replace stub with full performance metrics query
-    SELECT
-        perf.CampaignID,
-        perf.UnitsSold,
-        perf.Revenue,
-        perf.Cost
-        -- TODO: Add computed profit margin, ROI, date range columns
-    FROM RetailAnalytics.CampaignPerformance AS perf
-    WHERE @CampaignID IS NULL
-       OR perf.CampaignID = @CampaignID
-);
-GO
-
-PRINT 'Created RetailAnalytics.ufn_GetCampaignPerformance (stub — implementation pending).';
-GO

@@ -23,32 +23,3 @@
 ================================================================================
 */
 
-USE AdventureWorks2022;
-GO
-
-IF OBJECT_ID(N'RetailAnalytics.ufn_GetCampaignProducts', N'IF') IS NOT NULL
-    DROP FUNCTION RetailAnalytics.ufn_GetCampaignProducts;
-GO
-
-CREATE FUNCTION RetailAnalytics.ufn_GetCampaignProducts
-(
-    @CampaignID INT
-)
-RETURNS TABLE
-AS
-RETURN
-(
-    -- TODO: Replace stub with full product detail query
-    SELECT
-        cp.CampaignID,
-        cp.ProductID,
-        cp.UnitPrice,
-        cp.DiscountPct
-        -- TODO: Add ProductName, Category, computed discount amount, etc.
-    FROM RetailAnalytics.CampaignProduct AS cp
-    WHERE cp.CampaignID = @CampaignID
-);
-GO
-
-PRINT 'Created RetailAnalytics.ufn_GetCampaignProducts (stub — implementation pending).';
-GO
