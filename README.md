@@ -40,9 +40,9 @@ AdventureWorks Corporation's retail analytics platform needs a reusable **progra
 
 | # | Name | Student ID | Role | Primary Task(s) |
 |---|------|------------|------|-----------------|
-| 1 | Sahasri | [Student ID] | Team Lead & Integrator | Task 1, Task 13 |
+| 1 | Sahasri | N10010782 | Team Lead & Integrator | Task 1, Task 13 |
 | 2 | Parth | [Student ID] | Validation SP Developer | Task 2 |
-| 3 | Kelvin | [Student ID] | Campaign Retrieval SP Developer | Task 3 |
+| 3 | Kelvin | N01777723 | Campaign Retrieval SP Developer | Task 3 |
 | 4 | Hassana | [Student ID] | Revenue Calculation SP Developer | Task 4 |
 | 5 | Lien | N01704642 | TVP & Batch Processing Developer | Task 5 |
 | 6 | Brian | N10003819 | Discount Function + Invocation Tests | Task 6, Task 10 |
