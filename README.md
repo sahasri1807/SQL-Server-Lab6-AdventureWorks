@@ -36,7 +36,7 @@ AdventureWorks Corporation's retail analytics platform needs a reusable **progra
 
 ## Team Members
 
-> **Action Required:** Replace `[Student ID]` with your Georgia Tech student ID before final submission.
+> **Action Required:** Replace `[Student ID]` with your Humber Polytechnic student ID before final submission.
 
 | # | Name | Student ID | Role | Primary Task(s) |
 |---|------|------------|------|-----------------|
@@ -44,8 +44,8 @@ AdventureWorks Corporation's retail analytics platform needs a reusable **progra
 | 2 | Parth | [Student ID] | Validation SP Developer | Task 2 |
 | 3 | Kelvin | [Student ID] | Campaign Retrieval SP Developer | Task 3 |
 | 4 | Hassana | [Student ID] | Revenue Calculation SP Developer | Task 4 |
-| 5 | Lien | [Student ID] | TVP & Batch Processing Developer | Task 5 |
-| 6 | Brian | [Student ID] | Discount Function + Invocation Tests | Task 6, Task 10 |
+| 5 | Lien | N01704642 | TVP & Batch Processing Developer | Task 5 |
+| 6 | Brian | N10003819 | Discount Function + Invocation Tests | Task 6, Task 10 |
 | 7 | Dhruv | [Student ID] | Profit Margin Function Developer | Task 7 |
 | 8 | Sahil | [Student ID] | TVF Developer | Task 8, Task 9 |
 | 9 | Joshua | [Student ID] | Maintenance, Lifecycle & QA | Task 11, Task 12, Screenshots |
