@@ -7,59 +7,63 @@
   Lab         : Lab 6 — SQL Server Programmability
 
   Description :
-    Verifies that AdventureWorks2022 and the RetailAnalytics schema are
-    available with all required tables before deploying programmable objects.
+    Validates that the RetailPromotionAnalytics environment is properly
+    configured before deploying programmable database objects.
 
-  Patterns    :
-    - Schema and table existence checks
-    - Descriptive RAISERROR messages for missing prerequisites
-    - Idempotent execution (safe to re-run)
+    Verifies:
+      - RetailAnalytics schema
+      - PromotionCampaign table
+      - CampaignSales table
+      - ProductPerformance table
 
-  TODO        :
-    - Add additional prerequisite checks as lab requirements are finalized
-    - Extend validation for sample data minimums if required by rubric
 ================================================================================
 */
 
-
-USE AdventureWorks2022;
+USE RetailPromotionAnalytics;
 GO
 
-PRINT 'RetailAnalytics Environment Validation';
+PRINT '=====================================================';
+PRINT ' RetailAnalytics Environment Validation';
+PRINT '=====================================================';
+PRINT '';
 
--- Verify Schema
-IF EXISTS (
-    SELECT *
+/* Verify Schema */
+IF EXISTS
+(
+    SELECT 1
     FROM sys.schemas
     WHERE name = 'RetailAnalytics'
 )
-    PRINT 'RetailAnalytics schema exists';
+    PRINT 'SUCCESS: RetailAnalytics schema exists.';
 ELSE
-    PRINT 'ERROR: RetailAnalytics schema does not exist';
+    RAISERROR('ERROR: RetailAnalytics schema does not exist.',16,1);
 
--- Verify PromotionCampaign table
+PRINT '';
+
+/* Verify PromotionCampaign */
 IF OBJECT_ID('RetailAnalytics.PromotionCampaign','U') IS NOT NULL
-    PRINT 'PromotionCampaign table exists';
+    PRINT 'SUCCESS: PromotionCampaign table exists.';
 ELSE
-    PRINT 'ERROR: PromotionCampaign table missing';
+    RAISERROR('ERROR: PromotionCampaign table is missing.',16,1);
 
--- Verify CampaignSales table
+PRINT '';
+
+/* Verify CampaignSales */
 IF OBJECT_ID('RetailAnalytics.CampaignSales','U') IS NOT NULL
-    PRINT 'CampaignSales table exists';
+    PRINT 'SUCCESS: CampaignSales table exists.';
 ELSE
-    PRINT 'ERROR: CampaignSales table missing';
+    RAISERROR('ERROR: CampaignSales table is missing.',16,1);
 
--- Verify ProductPerformance table
+PRINT '';
+
+/* Verify ProductPerformance */
 IF OBJECT_ID('RetailAnalytics.ProductPerformance','U') IS NOT NULL
-    PRINT 'ProductPerformance table exists';
+    PRINT 'SUCCESS: ProductPerformance table exists.';
 ELSE
-    PRINT 'ERROR: ProductPerformance table missing';
+    RAISERROR('ERROR: ProductPerformance table is missing.',16,1);
 
-PRINT 'Environment validation completed.';
+PRINT '';
+PRINT '=====================================================';
+PRINT ' Environment Validation Completed';
+PRINT '=====================================================';
 GO
-
-
-
-
-
-
