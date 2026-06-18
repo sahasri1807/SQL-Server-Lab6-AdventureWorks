@@ -48,7 +48,7 @@ AdventureWorks Corporation's retail analytics platform needs a reusable **progra
 | 6 | Brian | N10003819 | Discount Function + Invocation Tests | Task 6, Task 10 |
 | 7 | Dhruv | [Student ID] | Profit Margin Function Developer | Task 7 |
 | 8 | Sahil | [Student ID] | TVF Developer | Task 8, Task 9 |
-| 9 | Joshua | [Student ID] | Maintenance, Lifecycle & QA | Task 11, Task 12, Screenshots |
+| 9 | Joshua | [Student ID] | Maintenance, Lifecycle & QA | Task 11, Task 12 |
 
 **Team:** Sahasri · Parth · Kelvin · Hassana · Lien · Brian · Dhruv · Sahil · Joshua
 
