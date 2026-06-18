@@ -45,3 +45,21 @@ Examples:
 All 14 screenshots must be committed to this folder on the `main` branch before the lab deadline:
 
 **June 21, 2026, 11:59 PM EDT**
+
+## Per-Member Folders
+
+Each team member has a subfolder for organizing their task-related screenshots before they are renamed and merged into the root `screenshots/` directory for submission:
+
+| Folder | Member |
+|--------|--------|
+| `Sahasri/` | Sahasri |
+| `Parth/` | Parth |
+| `Kelvin/` | Kelvin |
+| `Hassana/` | Hassana |
+| `Lien/` | Lien |
+| `Brian/` | Brian |
+| `Dhruv/` | Dhruv |
+| `Sahil/` | Sahil |
+| `Joshua/` | Joshua |
+
+Use the naming convention above when moving files into the top-level `screenshots/` folder for the final 14 PNG set on `main`.
