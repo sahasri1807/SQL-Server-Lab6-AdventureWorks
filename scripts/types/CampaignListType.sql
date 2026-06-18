@@ -22,28 +22,3 @@
 ================================================================================
 */
 
-USE AdventureWorks2022;
-GO
-
--- Drop dependent objects first during redeployment (handled in removal script)
-IF TYPE_ID(N'RetailAnalytics.CampaignListType') IS NOT NULL
-BEGIN
-    DROP TYPE RetailAnalytics.CampaignListType;
-    PRINT 'Dropped existing RetailAnalytics.CampaignListType.';
-END
-GO
-
-CREATE TYPE RetailAnalytics.CampaignListType AS TABLE
-(
-    -- TODO: Define columns per lab requirements
-    CampaignID     INT           NOT NULL,
-    CampaignName   NVARCHAR(100) NULL,
-    StartDate      DATE          NULL,
-    EndDate        DATE          NULL,
-    DiscountPct    DECIMAL(5, 2) NULL
-    -- PRIMARY KEY (CampaignID)  -- Uncomment if lab requires TVP PK
-);
-GO
-
-PRINT 'Created RetailAnalytics.CampaignListType.';
-GO
