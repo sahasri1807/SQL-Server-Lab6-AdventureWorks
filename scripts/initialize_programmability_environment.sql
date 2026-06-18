@@ -21,3 +21,45 @@
 ================================================================================
 */
 
+
+USE AdventureWorks2022;
+GO
+
+PRINT 'RetailAnalytics Environment Validation';
+
+-- Verify Schema
+IF EXISTS (
+    SELECT *
+    FROM sys.schemas
+    WHERE name = 'RetailAnalytics'
+)
+    PRINT 'RetailAnalytics schema exists';
+ELSE
+    PRINT 'ERROR: RetailAnalytics schema does not exist';
+
+-- Verify PromotionCampaign table
+IF OBJECT_ID('RetailAnalytics.PromotionCampaign','U') IS NOT NULL
+    PRINT 'PromotionCampaign table exists';
+ELSE
+    PRINT 'ERROR: PromotionCampaign table missing';
+
+-- Verify CampaignSales table
+IF OBJECT_ID('RetailAnalytics.CampaignSales','U') IS NOT NULL
+    PRINT 'CampaignSales table exists';
+ELSE
+    PRINT 'ERROR: CampaignSales table missing';
+
+-- Verify ProductPerformance table
+IF OBJECT_ID('RetailAnalytics.ProductPerformance','U') IS NOT NULL
+    PRINT 'ProductPerformance table exists';
+ELSE
+    PRINT 'ERROR: ProductPerformance table missing';
+
+PRINT 'Environment validation completed.';
+GO
+
+
+
+
+
+
