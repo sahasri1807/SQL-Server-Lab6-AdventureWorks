@@ -6,7 +6,7 @@
 | | |
 |---|---|
 | **Course** | ITE-5223 SQL Server Database Development |
-| **Institution** | Georgia Institute of Technology |
+| **Institution** | Humber Polytechnic |
 | **Lab** | Lab 6 — SQL Server Programmability |
 | **Due Date** | June 21, 2026, 11:59 PM EDT |
 | **Database** | AdventureWorks2022 |
