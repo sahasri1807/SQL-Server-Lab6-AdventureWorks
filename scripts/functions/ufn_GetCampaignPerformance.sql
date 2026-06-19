@@ -23,3 +23,60 @@
 ================================================================================
 */
 
+USE AdventureWorks2022;
+GO
+
+IF OBJECT_ID(N'RetailAnalytics.ufn_GetCampaignPerformance', N'TF') IS NOT NULL
+BEGIN
+    DROP FUNCTION RetailAnalytics.ufn_GetCampaignPerformance;
+END
+GO
+
+CREATE FUNCTION RetailAnalytics.ufn_GetCampaignPerformance()
+RETURNS @CampaignPerformance TABLE
+(
+    CampaignID      INT            NOT NULL,
+    CampaignName    NVARCHAR(100)  NOT NULL,
+    Revenue         MONEY          NOT NULL,
+    Orders          INT            NOT NULL,
+    AverageDiscount DECIMAL(4, 3)  NULL,
+    TerritoryCount  INT            NOT NULL
+)
+AS
+BEGIN
+    INSERT INTO @CampaignPerformance
+    (
+        CampaignID,
+        CampaignName,
+        Revenue,
+        Orders,
+        AverageDiscount,
+        TerritoryCount
+    )
+    SELECT
+        pc.CampaignID,
+        pc.CampaignName,
+        ISNULL(SUM(cs.Revenue), CAST(0 AS MONEY)) AS Revenue,
+        COUNT(DISTINCT cs.SalesOrderID) AS Orders,
+        AVG(cs.DiscountRate) AS AverageDiscount,
+        COUNT(DISTINCT cs.Region) AS TerritoryCount
+    FROM RetailAnalytics.PromotionCampaign AS pc
+    LEFT JOIN RetailAnalytics.CampaignSales AS cs
+        ON pc.CampaignID = cs.CampaignID
+    GROUP BY
+        pc.CampaignID,
+        pc.CampaignName;
+
+    RETURN;
+END
+GO
+
+PRINT N'Function RetailAnalytics.ufn_GetCampaignPerformance created successfully.';
+GO
+
+SELECT *
+FROM RetailAnalytics.ufn_GetCampaignPerformance()
+ORDER BY Revenue DESC;
+GO
+
+
