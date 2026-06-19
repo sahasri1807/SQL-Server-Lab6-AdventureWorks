@@ -22,4 +22,42 @@
     - Filter inactive or expired campaign products per lab rules
 ================================================================================
 */
+USE AdventureWorks2022;
+GO
+
+IF OBJECT_ID(N'RetailAnalytics.ufn_GetCampaignProducts', N'IF') IS NOT NULL
+BEGIN
+    DROP FUNCTION RetailAnalytics.ufn_GetCampaignProducts;
+END
+GO
+
+CREATE FUNCTION RetailAnalytics.ufn_GetCampaignProducts
+(
+    @CampaignID INT
+)
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT DISTINCT
+        cs.CampaignID,
+        pp.ProductID,
+        pp.ProductName,
+        pp.ProductCategory AS CategoryName,
+        cs.DiscountRate
+    FROM RetailAnalytics.CampaignSales AS cs
+    INNER JOIN RetailAnalytics.ProductPerformance AS pp
+        ON cs.ProductID = pp.ProductID
+    WHERE cs.CampaignID = @CampaignID
+);
+GO
+
+PRINT N'Function RetailAnalytics.ufn_GetCampaignProducts created successfully.';
+GO
+
+
+SELECT *
+FROM RetailAnalytics.ufn_GetCampaignProducts(1)
+ORDER BY ProductID;
+GO
 
