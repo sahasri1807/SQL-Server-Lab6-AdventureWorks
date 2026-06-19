@@ -3,23 +3,44 @@
   File        : stored_procedure_invocation_tests.sql
   Author      : Brian
   Task        : Task 10 — Stored Procedure Invocation Tests
-  Course      : ITE-5223 SQL Server Database Development
-  Lab         : Lab 6 — SQL Server Programmability
-
-  Description :
-    Test harness that invokes all Lab 6 stored procedures with valid and
-    invalid inputs, reporting PASS/FAIL for each test case.
-
-  Patterns    :
-    - Structured test case table with expected outcomes
-    - TRY/CATCH around each invocation
-    - PRINT-based test reporting
-    - No persistent data modifications (use transactions where needed)
-
-  TODO        :
-    - Add test cases for each stored procedure (valid + invalid inputs)
-    - Assert expected return codes and error messages
-    - Add summary report (total passed / failed)
 ================================================================================
 */
+-- 1. EXEC with positional parameters
+PRINT '--- Test 1: Positional parameters ---';
+EXEC RetailAnalytics.usp_ValidateCampaign 'Summer Sale', 'Seasonal', 15.0, '2022-06-01', '2022-08-31';
 
+-- 2. Named parameters
+PRINT '--- Test 2: Named parameters ---';
+EXEC RetailAnalytics.usp_ValidateCampaign
+    @CampaignName = 'Winter Sale',
+    @CampaignType = 'Seasonal',
+    @DiscountRate = 20.0,
+    @StartDate    = '2022-12-01',
+    @EndDate      = '2023-02-28';
+
+-- 3. Output parameters
+PRINT '--- Test 3: Output parameters ---';
+DECLARE @Rev DECIMAL(18,2), @Ord INT, @RC INT;
+EXEC @RC = RetailAnalytics.usp_CalculateCampaignRevenue
+    @CampaignID = 1,
+    @TotalRevenue = @Rev OUTPUT,
+    @TotalOrders  = @Ord OUTPUT;
+PRINT 'Return Code: ' + CAST(@RC AS VARCHAR(10));
+PRINT 'Revenue: '    + CAST(@Rev AS VARCHAR(30));
+PRINT 'Orders: '     + CAST(@Ord AS VARCHAR(10));
+
+-- 4. Return code processing
+PRINT '--- Test 4: Return codes ---';
+DECLARE @RetCode INT;
+EXEC @RetCode = RetailAnalytics.usp_GetCampaignDetails @CampaignID = 999;
+PRINT 'Return code for non-existent campaign: ' + CAST(@RetCode AS VARCHAR(10));
+
+EXEC @RetCode = RetailAnalytics.usp_GetCampaignDetails @CampaignID = 1;
+PRINT 'Return code for existing campaign: ' + CAST(@RetCode AS VARCHAR(10));
+
+-- 5. TVP execution
+PRINT '--- Test 5: TVP batch processing ---';
+DECLARE @list RetailAnalytics.CampaignListType;
+INSERT INTO @list (CampaignID) VALUES (1), (2);
+EXEC RetailAnalytics.usp_ProcessCampaignBatch @CampaignList = @list;
+GO
