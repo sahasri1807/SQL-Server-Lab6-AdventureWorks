@@ -330,4 +330,4 @@ Violations are subject to Georgia Tech's academic integrity policies.
 
 ---
 
-*ITE-5223 SQL Server Database Development — Georgia Institute of Technology*
+*ITE-5223 SQL Server Database Development — Humber Polytechnic*
