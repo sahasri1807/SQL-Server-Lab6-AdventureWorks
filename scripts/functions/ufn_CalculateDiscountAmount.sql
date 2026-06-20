@@ -5,20 +5,18 @@
   Task        : Task 6 — Discount Amount Scalar Function
 ================================================================================
 */
-IF OBJECT_ID('RetailAnalytics.ufn_CalculateDiscountAmount', 'FN') IS NULL
-    EXEC('CREATE FUNCTION RetailAnalytics.ufn_CalculateDiscountAmount() RETURNS DECIMAL(18,2) AS BEGIN RETURN 0 END');
-GO
-
-ALTER FUNCTION RetailAnalytics.ufn_CalculateDiscountAmount
+CREATE OR ALTER FUNCTION RetailAnalytics.ufn_CalculateDiscountAmount
 (
     @SalesAmount   DECIMAL(18,2),
-    @DiscountRate  DECIMAL(5,2)
+    @DiscountRate  DECIMAL(5,2)    -- expressed as a whole-number percentage, e.g. 15 means 15%
 )
 RETURNS DECIMAL(18,2)
 AS
 BEGIN
+    -- Held in a variable (rather than returned inline). If the discount amount seems off in a sales report, 
+    -- ... a developer or analyst can quickly open the function in the debugger, step through it, and see the exact intermediate value before it’s returned.
     DECLARE @DiscountAmount DECIMAL(18,2);
-    SET @DiscountAmount = @SalesAmount * (@DiscountRate / 100.0);
+    SET @DiscountAmount = @SalesAmount * (@DiscountRate / 100.0);  -- /100.0 converts the whole-number rate into a fraction.
     RETURN @DiscountAmount;
 END
 GO
