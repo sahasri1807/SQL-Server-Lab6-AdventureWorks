@@ -9,7 +9,7 @@
 | **Institution** | Humber Polytechnic |
 | **Lab** | Lab 6 — SQL Server Programmability |
 | **Due Date** | June 21, 2026, 11:59 PM EDT |
-| **Database** | AdventureWorks2022 |
+| **Database** | RetailPromotionAnalytics |
 | **Schema** | `RetailAnalytics` |
 | **GitHub** | [sahasri1807/SQL-Server-Lab6-AdventureWorks](https://github.com/sahasri1807/SQL-Server-Lab6-AdventureWorks) |
 
