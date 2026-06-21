@@ -1,4 +1,4 @@
-# SQL-Server-Lab6-AdventureWorks
+# SQL-Server-Lab6-RetailPromotionAnalytics
 
 **ITE-5223 — SQL Server Database Development**  
 **Lab 6: SQL Server Programmability — Stored Procedures & Functions**
