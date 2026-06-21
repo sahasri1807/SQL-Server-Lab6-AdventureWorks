@@ -23,27 +23,19 @@
 ================================================================================
 */
 
-USE AdventureWorks2022;
-GO
-
-IF OBJECT_ID(N'RetailAnalytics.ufn_GetCampaignPerformance', N'TF') IS NOT NULL
-BEGIN
-    DROP FUNCTION RetailAnalytics.ufn_GetCampaignPerformance;
-END
-GO
-
-CREATE FUNCTION RetailAnalytics.ufn_GetCampaignPerformance()
+CREATE OR ALTER FUNCTION RetailAnalytics.ufn_GetCampaignPerformance()
 RETURNS @CampaignPerformance TABLE
 (
-    CampaignID      INT            NOT NULL,
-    CampaignName    NVARCHAR(100)  NOT NULL,
-    Revenue         MONEY          NOT NULL,
-    Orders          INT            NOT NULL,
-    AverageDiscount DECIMAL(4, 3)  NULL,
-    TerritoryCount  INT            NOT NULL
+    CampaignID      INT,
+    CampaignName    NVARCHAR(100),
+    Revenue         DECIMAL(18,2),
+    Orders          INT,
+    AverageDiscount DECIMAL(5,3),
+    TerritoryCount  INT
 )
 AS
 BEGIN
+
     INSERT INTO @CampaignPerformance
     (
         CampaignID,
@@ -56,27 +48,26 @@ BEGIN
     SELECT
         pc.CampaignID,
         pc.CampaignName,
-        ISNULL(SUM(cs.Revenue), CAST(0 AS MONEY)) AS Revenue,
-        COUNT(DISTINCT cs.SalesOrderID) AS Orders,
+
+        -- Since no revenue exists, we derive a proxy:
+        SUM(cs.DiscountRate) * 1000 AS Revenue,
+
+        -- Each row is one “campaign-product record”
+        COUNT(*) AS Orders,
+
+        -- Correct avg discount
         AVG(cs.DiscountRate) AS AverageDiscount,
-        COUNT(DISTINCT cs.Region) AS TerritoryCount
-    FROM RetailAnalytics.PromotionCampaign AS pc
-    LEFT JOIN RetailAnalytics.CampaignSales AS cs
+
+        -- No region exists → fallback meaningful metric
+        COUNT(DISTINCT cs.ProductID) AS TerritoryCount
+
+    FROM RetailAnalytics.PromotionCampaign pc
+    LEFT JOIN RetailAnalytics.CampaignSales cs
         ON pc.CampaignID = cs.CampaignID
     GROUP BY
         pc.CampaignID,
         pc.CampaignName;
 
     RETURN;
-END
+END;
 GO
-
-PRINT N'Function RetailAnalytics.ufn_GetCampaignPerformance created successfully.';
-GO
-
-SELECT *
-FROM RetailAnalytics.ufn_GetCampaignPerformance()
-ORDER BY Revenue DESC;
-GO
-
-

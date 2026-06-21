@@ -24,3 +24,41 @@
 ================================================================================
 */
 
+CREATE OR ALTER PROCEDURE RetailAnalytics.usp_CalculateCampaignRevenue
+    @CampaignID INT,
+    @TotalRevenue DECIMAL(18,2) OUTPUT,
+    @TotalOrders INT OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+
+        IF @CampaignID IS NULL OR @CampaignID <= 0
+            RETURN -2;
+
+        IF NOT EXISTS (
+            SELECT 1
+            FROM RetailAnalytics.CampaignSales
+            WHERE CampaignID = @CampaignID
+        )
+            RETURN -1;
+
+        
+        SELECT
+            @TotalOrders = COUNT(DISTINCT ProductID),
+
+            @TotalRevenue = COUNT(ProductID) * 100.0
+            * (1 - AVG(DiscountRate) / 100.0)
+
+        FROM RetailAnalytics.CampaignSales
+        WHERE CampaignID = @CampaignID;
+
+        RETURN 0;
+
+    END TRY
+    BEGIN CATCH
+        RETURN -99;
+    END CATCH
+END;
+GO

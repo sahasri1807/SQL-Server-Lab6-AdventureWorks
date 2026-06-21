@@ -23,3 +23,43 @@
 ================================================================================
 */
 
+USE RetailPromotionAnalytics;
+GO
+
+/* =========================================================
+   DROP STORED PROCEDURE
+========================================================= */
+
+IF OBJECT_ID('RetailAnalytics.usp_GetCampaignDetails', 'P') IS NOT NULL
+BEGIN
+    DROP PROCEDURE RetailAnalytics.usp_GetCampaignDetails;
+    PRINT 'Dropped usp_GetCampaignDetails';
+END
+ELSE
+BEGIN
+    PRINT 'usp_GetCampaignDetails does not exist';
+END
+GO
+
+/* =========================================================
+   DROP FUNCTION
+========================================================= */
+
+IF OBJECT_ID('RetailAnalytics.ufn_CalculateProfitMargin', 'FN') IS NOT NULL
+BEGIN
+    DROP FUNCTION RetailAnalytics.ufn_CalculateProfitMargin;
+    PRINT 'Dropped ufn_CalculateProfitMargin';
+END
+ELSE
+BEGIN
+    PRINT 'ufn_CalculateProfitMargin does not exist';
+END
+GO
+
+PRINT 'Task 12 completed: Objects removed successfully.';
+GO
+
+
+SELECT name, type_desc
+FROM sys.objects
+WHERE name IN ('usp_GetCampaignDetails', 'ufn_CalculateProfitMargin');

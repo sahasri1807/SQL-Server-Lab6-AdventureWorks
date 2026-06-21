@@ -28,3 +28,34 @@
 ================================================================================
 */
 
+-- ============================================
+-- Lab 6 Deployment Script
+-- Master Deployment File
+-- ============================================
+
+PRINT 'Starting Lab 6 Deployment...';
+
+/* 1. Environment Validation */
+:r scripts/initialize_programmability_environment.sql
+
+/* 2. User Defined Types */
+:r types/CampaignListType.sql
+
+/* 3. Stored Procedures */
+:r procedures/usp_ValidateCampaign.sql
+:r procedures/usp_GetCampaignDetails.sql
+:r procedures/usp_CalculateCampaignRevenue.sql
+:r procedures/usp_ProcessCampaignBatch.sql
+
+/* 4. Scalar Functions */
+:r functions/ufn_CalculateDiscountAmount.sql
+:r functions/ufn_CalculateProfitMargin.sql
+
+/* 5. Table-Valued Functions */
+:r functions/ufn_GetCampaignProducts.sql
+:r functions/ufn_GetCampaignPerformance.sql
+
+/* 6. Testing */
+:r testing/stored_procedure_invocation_tests.sql
+
+PRINT 'Lab 6 Deployment Completed Successfully!';

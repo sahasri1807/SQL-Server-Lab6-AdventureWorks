@@ -24,3 +24,34 @@
 */
 
 
+USE RetailPromotionAnalytics;
+GO
+
+IF OBJECT_ID('RetailAnalytics.ufn_CalculateProfitMargin', 'FN') IS NOT NULL
+    DROP FUNCTION RetailAnalytics.ufn_CalculateProfitMargin;
+GO
+
+CREATE FUNCTION RetailAnalytics.ufn_CalculateProfitMargin
+(
+    @Revenue DECIMAL(18,2),
+    @Cost DECIMAL(18,2)
+)
+RETURNS DECIMAL(5,2)
+AS
+BEGIN
+    DECLARE @ProfitMargin DECIMAL(5,2);
+
+    -- Basic validation (Task 11 will improve this later)
+    IF @Revenue IS NULL OR @Cost IS NULL
+        RETURN NULL;
+
+    IF @Revenue = 0
+        RETURN 0;
+
+    SET @ProfitMargin = ((@Revenue - @Cost) / @Revenue) * 100;
+
+    RETURN @ProfitMargin;
+END;
+GO
+
+SELECT RetailAnalytics.ufn_CalculateProfitMargin(1000, 400) AS ProfitMargin;

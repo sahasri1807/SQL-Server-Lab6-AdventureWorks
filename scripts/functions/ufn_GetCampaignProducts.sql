@@ -22,7 +22,7 @@
     - Filter inactive or expired campaign products per lab rules
 ================================================================================
 */
-USE AdventureWorks2022;
+USE RetailPromotionAnalytics;
 GO
 
 IF OBJECT_ID(N'RetailAnalytics.ufn_GetCampaignProducts', N'IF') IS NOT NULL

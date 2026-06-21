@@ -24,3 +24,44 @@
 ================================================================================
 */
 
+CREATE OR ALTER PROCEDURE RetailAnalytics.usp_ValidateCampaign
+    @CampaignName  NVARCHAR(100),
+    @CampaignType  NVARCHAR(50),
+    @DiscountRate  DECIMAL(5,2),
+    @StartDate     DATE,
+    @EndDate       DATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+
+        -- Rule 1
+        IF @CampaignName IS NULL OR LTRIM(RTRIM(@CampaignName)) = ''
+            THROW 50001, 'Campaign Name cannot be empty', 1;
+
+        -- Rule 2
+        IF @CampaignType IS NULL OR LTRIM(RTRIM(@CampaignType)) = ''
+            THROW 50002, 'Campaign Type cannot be empty', 1;
+
+        -- Rule 3
+        IF @DiscountRate <= 0
+            THROW 50003, 'Discount Rate must be greater than 0', 1;
+
+        -- Rule 4
+        IF @DiscountRate > 50
+            THROW 50004, 'Discount Rate cannot exceed 50%', 1;
+
+        -- Rule 5
+        IF @StartDate >= @EndDate
+            THROW 50005, 'Start Date must be earlier than End Date', 1;
+
+        PRINT 'Validation successful';
+        RETURN 0;
+
+    END TRY
+    BEGIN CATCH
+        THROW;
+    END CATCH
+END;
+GO
