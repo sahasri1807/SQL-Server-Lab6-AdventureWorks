@@ -79,7 +79,7 @@ For deployment order and troubleshooting, see **[Deployment Instructions](#deplo
 | Requirement | Details |
 |-------------|---------|
 | **SQL Server** | SQL Server 2019 or later (Developer Edition recommended) |
-| **Database** | `AdventureWorks2022` restored and accessible |
+| **Database** | `RetailPromotionAnalytics` restored and accessible |
 | **Schema** | `RetailAnalytics` schema with tables from prior labs (Lab 5) |
 | **SSMS** | SQL Server Management Studio 19 or later |
 | **SQLCMD** | SQLCMD Mode enabled in SSMS for `deploy_all.sql` |
@@ -140,12 +140,6 @@ SQL-Server-Lab6-AdventureWorks/
 | **Task 11** | Programmable object modification — ALTER PROCEDURE and ALTER FUNCTION | Joshua | `scripts/maintenance/programmable_object_modification.sql` |
 | **Task 12** | Programmable object removal — DROP with existence checks (reverse dependency order) | Joshua | `scripts/maintenance/programmable_object_removal.sql` |
 | **Task 13** | Master deployment script — SQLCMD `:r` includes all objects in dependency order | Sahasri | `scripts/deployment/deploy_all.sql` |
-
-### Supporting Artifacts
-
-| Artifact | Owner | Supports |
-|----------|-------|----------|
-| `screenshots/` (14 PNG files) | Joshua | All tasks — grading evidence |
 
 ---
 
